@@ -1,0 +1,92 @@
+Create db assignment1,
+
+create table section(
+course_id int(4) not null unique,
+sec_id int not null unique,
+semester int(2) unique,
+year int(4) not null unique,
+building int unique,
+room_no int unique,
+time_slot_id varchar(45) not null unique
+CONSTRAINT FOREIGN KEY (course_id ) REFERENCES course(course_id ),
+);
+
+Create classroom(
+building int not null unique,
+room_no int not null unique,
+capacity int(4) not null unique,
+CONSTRAINT FOREIGN KEY (building) REFERENCES section(building),
+CONSTRAINT FOREIGN KEY (room_no ) REFERENCES section(room_no)
+);
+
+create table takes(
+id int not null,
+course_id int unique,
+sec_id int not null unique,
+semester int(2) not null unique,
+year int(4) not null unique,
+grade char(1),
+CONSTRAINT FOREIGN KEY (course_id) REFERENCES section(course_id),
+CONSTRAINT FOREIGN KEY (sec_id ) REFERENCES section(sec_id),
+CONSTRAINT FOREIGN KEY (semester) REFERENCES section(semester),
+CONSTRAINT FOREIGN KEY (year_no) REFERENCES section(year_no),
+CONSTRAINT FOREIGN KEY (id) REFERENCES student(id)
+);
+
+create timeslot(
+time_slot_id varchar(45) not null unique,
+day int(4) unique,
+start_time varchar(45),
+end_time int(4),
+CONSTRAINT FOREIGN KEY (time_slot_id) REFERENCES section(time_slot_id)
+);
+
+create teaches(
+ID varchar(45) unique,
+course_id int(4) not null,
+sec_id int not null unique,
+semester int(2) unique,
+year int(4) not null unique,
+CONSTRAINT FOREIGN KEY (ID ) REFERENCES instructor(ID),
+CONSTRAINT FOREIGN KEY (course_id ) REFERENCES section(course_id ),
+CONSTRAINT FOREIGN KEY (sec_id) REFERENCES section(sec_id),
+CONSTRAINT FOREIGN KEY (semester) REFERENCES section(semester),
+CONSTRAINT FOREIGN KEY (year) REFERENCES section(year)
+);
+
+Create course(
+course_id int unique,
+title varchar(45) not null unique,
+dept_name varchar(45) not null unique,
+credits int(4) unique,
+CONSTRAINT FOREIGN KEY (dept_name) REFERENCES department(dept_name)
+);
+
+Create prereq(
+course_id int unique,
+prereq varchar(45) not null unique,
+CONSTRAINT FOREIGN KEY (course_id) REFERENCES course(course_id)
+CONSTRAINT FOREIGN KEY (dept_name) REFERENCES course(course_id)
+);
+
+Create student(
+ID int PRIMARY KEY,
+name varchar(45) not null unique,
+dept_name varchar(45) not null unique,
+tot_cred int(4) unique,
+CONSTRAINT FOREIGN KEY (dept_name) REFERENCES department(dept_name)
+);
+
+create department(
+dept_name varchar(45) not null unique,
+building int(4) not null unique,
+budget int(4)
+);
+
+create instructor(
+ID int not null unique,
+name varchar(45) not null unique,
+dept_name varchar(45) not null unique,
+salary int(4)
+CONSTRAINT FOREIGN KEY (dept_name) REFERENCES department(dept_name)
+);
